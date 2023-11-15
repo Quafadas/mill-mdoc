@@ -9,7 +9,7 @@ jobs:
         java-version: [17]
         targets:
           - "__.publishLocal testRepo"
-          - "itest[0.11.0, 2.13.12].test"
+          - "itest[0.11.0,2.13.12].test"
 
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.os == 'windows-latest' }}
