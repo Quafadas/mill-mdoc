@@ -155,24 +155,3 @@ trait Itest extends Cross.Module2[String, String] with MillIntegrationTestModule
   //   PathRef(T.dest)
   // }
 }
-
-/** Convenience targets. */
-// object P extends Module {
-
-//   /**
-//    * Update the millw script.
-//    */
-//   def millw() = T.command {
-//     // https://raw.githubusercontent.com/lefou/millw/master/millw
-//     for {
-//       file <- Seq("millw", "millw.bat")
-//     } yield {
-//       val target = Util.download(s"https://raw.githubusercontent.com/lefou/millw/master/${file}")
-//       val millw = baseDir / file
-//       os.copy.over(target.path, millw)
-//       os.perms.set(millw, os.perms(millw) + PosixFilePermission.OWNER_EXECUTE)
-//       target
-//     }
-//   }
-
-// }
