@@ -27,21 +27,27 @@ val millPlatforms = Seq(
 object core extends Cross[MillMDocModule](millPlatforms)
 trait MillMDocModule extends Cross.Module2[String, String] with ScalaModule with PublishModule {
   val (millVersion, scalaVersionIn) = (crossValue, crossValue2)
-  def millPlatform: String = millVersion.take(4).replace(".", "")
+  def millPlatform: String = millVersion.split("\\.").take(2).mkString(".")
+  def scalaArtefactVersion: String = scalaVersionIn.split("\\.").take(2).mkString(".")
+
   //def deps: Deps = millPlatforms.toMap.apply(millPlatform)
-  override def scalaVersion = scalaVersionIn  // override def ivyDeps = Agg(deps.scalaLibrary)
-  // override def artifactSuffix = s"_mill${deps.millPlatform}_${artifactScalaVersion()}"
-  override def artifactName = "de.wayofquality.blended.mill.mdoc"
+  override def scalaVersion = scalaVersionIn
+  override def ivyDeps = super.ivyDeps() ++ Agg(ivy"org.scala-lang:scala-library:${scalaVersionIn}")
+  override def artifactSuffix = s"_mill${millPlatform}_${scalaArtefactVersion}"
+  override def artifactName = "mill.mdoc"
   def publishVersion =  VcsVersion.vcsState().format()
-    override def compileIvyDeps = Agg(
+
+  override def compileIvyDeps = Agg(
     ivy"com.lihaoyi::mill-main:${millVersion}",
     ivy"com.lihaoyi::mill-scalalib:${millVersion}"
   )
+
   override def javacOptions = Seq("-source", "17", "-target", "17", "-encoding", "UTF-8")
+
   override def pomSettings = T {
     PomSettings(
       description = "Mill module to execute Scalameta MDoc",
-      organization = "de.wayofquality.blended",
+      organization = "io.github.quafadas",
       url = "https://github.com/atooni/mill-mdoc",
       licenses = Seq(License.`Apache-2.0`),
       versionControl = VersionControl.github("atooni", "mill-mdoc"),
@@ -56,7 +62,7 @@ trait MillMDocModule extends Cross.Module2[String, String] with ScalaModule with
          |
          |object BuildInfo {
          |  def millMdocVerison = "${publishVersion()}"
-         |  def millVersion = "${millPlatform.take(4).replace(".", "")}"
+         |  def millVersion = "${millPlatform}"
          |}
          |""".stripMargin
     os.write(dest / "BuildInfo.scala", infoClass)
@@ -72,6 +78,8 @@ trait Itest extends Cross.Module2[String, String] with MillIntegrationTestModule
   //override def millSourcePath: Path = super.millSourcePath / os.up
   //def deps = testVersions.toMap.apply(millVersion)
   override def millTestVersion = T { millVersion }
+
+  // override def scalaVerion = T { scalaVersionIn }
   override def pluginsUnderTest = Seq(core(millVersion, scalaVersionIn))
 
   // override def pluginUnderTestDetails: Task.Sequence[(PathRef, (PathRef, (PathRef, (PathRef, (PathRef, Artifact)))))] =
