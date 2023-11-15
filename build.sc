@@ -38,7 +38,6 @@ trait MillMDocModule extends Cross.Module2[String, String] with ScalaModule with
     ivy"com.lihaoyi::mill-scalalib:${millVersion}"
   )
   override def javacOptions = Seq("-source", "17", "-target", "17", "-encoding", "UTF-8")
-  override def scalacOptions = Seq("17", "-encoding", "UTF-8")
   override def pomSettings = T {
     PomSettings(
       description = "Mill module to execute Scalameta MDoc",
