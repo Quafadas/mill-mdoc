@@ -18,5 +18,5 @@ def verify()  = T.command {
 
 object simple extends MDocModule {
   override def mdocSources = T.sources(build.millSourcePath / "docs")
-  override def scalaVersion: T[String] = "2.13.7"
+  override def scalaVersion: T[String] = "2.13.12"
 }
