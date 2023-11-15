@@ -2,8 +2,6 @@
 import $ivy.`de.tototec::de.tobiasroeser.mill.vcs.version::0.4.0`
 // Run integration tests with mill
 import $ivy.`de.tototec::de.tobiasroeser.mill.integrationtest::0.7.1`
-// Generate converage reports
-import $ivy.`com.lihaoyi::mill-contrib-scoverage:`
 
 import mill.define.{Command, Task, TaskModule}
 
@@ -13,7 +11,6 @@ import de.tobiasroeser.mill.integrationtest._
 import de.tobiasroeser.mill.vcs.version._
 
 import mill.{Agg, PathRef, T}
-import mill.contrib.scoverage.ScoverageModule
 import mill.define.{Cross, Module, Target}
 import mill.modules.Util
 import mill.scalalib._
@@ -21,50 +18,6 @@ import mill.scalalib.publish._
 
 import os.Path
 
-//val baseDir = build.millSourcePath
-
-trait Deps {
-//   // The mill API version used in the project/sources/dependencies, also default for integration tests
-  def millVersion: String
-  def millPlatform: String
-  def scalaVersion: String
-//   def millTestVersions: Seq[String]
-//   val scoverageVersion = "1.4.10"
-
-//   val bndlib = ivy"biz.aQute.bnd:biz.aQute.bndlib:6.0.0"
-//   val logbackClassic = ivy"ch.qos.logback:logback-classic:1.1.3"
-//   def millMain = ivy"com.lihaoyi::mill-main:${millVersion}"
-//   def millScalalib = ivy"com.lihaoyi::mill-scalalib:${millVersion}"
-//   val scalaTest = ivy"org.scalatest::scalatest:3.2.10"
-//   def scalaLibrary = ivy"org.scala-lang:scala-library:${scalaVersion}"
-//   val scoveragePlugin = ivy"org.scoverage:::scalac-scoverage-plugin:${scoverageVersion}"
-//   val scoverageRuntime = ivy"org.scoverage::scalac-scoverage-runtime:${scoverageVersion}"
-//   val slf4j = ivy"org.slf4j:slf4j-api:1.7.32"
-}
-
-// object Deps_0_11 {
-//   override val millVersion = "0.11.0" // scala-steward:off
-//   override def millPlatform = "0.11"
-//   override val scalaVersion = "2.13.8"
-//   // keep in sync with .github/workflows/build.yml
-//   override val millTestVersions = Seq(millVersion)
-// }
-// object Deps_0_10 {
-//   override val millVersion = "0.10.0" // scala-steward:off
-//   override def millPlatform = "0.10"
-//   override val scalaVersion = "2.13.7"
-//   // keep in sync with .github/workflows/build.yml
-//   override val millTestVersions = Seq(millVersion)
-// }
-// object Deps_0_9 {
-//   override val millVersion = "0.9.8" // scala-steward:off
-//   override def millPlatform = "0.9"
-//   override val scalaVersion = "2.13.7"
-//   // keep in sync with .github/workflows/build.yml
-//   override val millTestVersions = Seq("0.9.10", "0.9.9", millVersion)
-// }
-
-/** Cross build versions */
 val millPlatforms = Seq(
   ("0.11.0","2.13.12"),
   ("0.10.0","2.13.12"),
@@ -112,19 +65,6 @@ trait MillMDocModule extends Cross.Module2[String, String] with ScalaModule with
   }
 
 }
-
-// object testsupport extends Cross[TestSupport](millPlatforms.map(_._1): _*)
-// class TestSupport(override val millPlatform: String) extends MillMDocModule {
-//   override def millSourcePath: Path = super.millSourcePath / os.up
-//   override def compileIvyDeps = Agg(
-//     deps.millMain,
-//     deps.millScalalib
-//   )
-//   override def artifactName = "mill-mdoc-testsupport"
-//   override def moduleDeps = Seq(core(millPlatform))
-// }
-
-// val testVersions: Seq[(String, Deps)] = millPlatforms.flatMap { case (_, d) => d.millTestVersions.map(_ -> d) }
 
 object itest extends Cross[Itest](millPlatforms)
 
