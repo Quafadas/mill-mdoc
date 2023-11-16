@@ -19,9 +19,9 @@ import mill.scalalib.publish._
 import os.Path
 
 val millPlatforms = Seq(
-  ("0.11.0","2.13.12"),
-  ("0.10.0","2.13.12"),
-  ("0.9.8","2.13.12")
+  ("0.11.0","2.13.10"),
+  ("0.10.0","2.13.10"),
+  ("0.9.8","2.13.10")
 )
 
 object core extends Cross[MillMDocModule](millPlatforms)
@@ -79,7 +79,7 @@ trait Itest extends Cross.Module2[String, String] with MillIntegrationTestModule
   //def deps = testVersions.toMap.apply(millVersion)
   override def millTestVersion = T { millVersion }
 
-  // override def scalaVerion = T { scalaVersionIn }
+  //override def scalaVerion = scalaVersionIn
   override def pluginsUnderTest = Seq(core(millVersion, scalaVersionIn))
 
   // override def pluginUnderTestDetails: Task.Sequence[(PathRef, (PathRef, (PathRef, (PathRef, (PathRef, Artifact)))))] =

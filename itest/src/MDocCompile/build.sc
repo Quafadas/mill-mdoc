@@ -1,5 +1,4 @@
-import $exec.plugins
-import $exec.shared
+import $file.plugins
 import mill._
 import mill.scalalib._
 import de.wayofquality.mill.mdoc._
@@ -18,5 +17,5 @@ def verify()  = T.command {
 
 object simple extends MDocModule {
   override def mdocSources = T.sources(build.millSourcePath / "docs")
-  override def scalaVersion: T[String] = "2.13.12"
+  override def scalaVersion: T[String] = "2.13.10"
 }

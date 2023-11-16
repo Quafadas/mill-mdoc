@@ -9,7 +9,7 @@ trait MDocModule extends ScalaModule {
 
   def scalaMdocVersion : T[String] = T("2.5.1")
 
-  def scalaVersion: T[String] = T("2.13.12")
+  def scalaVersion: T[String] = T("2.13.10")
 
   def scalaMdocDep : T[Dep] = T(ivy"org.scalameta::mdoc:${scalaMdocVersion()}")
 
